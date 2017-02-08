@@ -16,8 +16,19 @@ public class ChordDrawer {
     private JLabel chordImage;
     private JPanel imgPanel;
 
-    private int width;
-    private int height;
+    private int width;                  //This is the image width
+    private int height;                 //This is the image height.
+    private BufferedImage chordImg;
+    private Graphics2D chordGraphic;
+
+    private void createBaseImage(){
+        chordImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        chordGraphic = chordImg.createGraphics();
+        chordGraphic.setColor(Color.black);
+        chordGraphic.fillRect(0,0,width, height);
+
+        //Here would be where we draw the guitar.
+    }
 
     ChordDrawer(){
 
@@ -25,11 +36,7 @@ public class ChordDrawer {
         height = 416;
         chordImage.setText("");
 
-
-        BufferedImage chordImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D chordGraphic = chordImg.createGraphics();
-        chordGraphic.setColor(Color.black);
-        chordGraphic.fillRect(0,0,width, height);
+        createBaseImage();
 
         Color clickColor = Color.white;
 
