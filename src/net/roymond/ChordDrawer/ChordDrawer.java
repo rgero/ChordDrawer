@@ -31,6 +31,8 @@ public class ChordDrawer {
     private int verticalPadding;
     private int workingWidth;
     private int workingHeight;
+    private int shapeWidth;
+    private int shapeHeight;
 
     private List<Point> intersectionPoints;
 
@@ -49,7 +51,11 @@ public class ChordDrawer {
             }
         }
         return pointList;
+    }
 
+    private boolean closerTo(int low, int target, int high){
+        double decidePoint = low + (high - low)/2.0;
+        return target > decidePoint;
     }
 
 
@@ -102,6 +108,9 @@ public class ChordDrawer {
         numberOfStrings = 6;
         numberOfFrets = 5;
 
+        shapeHeight = 20;
+        shapeWidth = 20;
+
         width = 340;
         height = 416;
         horizontalPadding = 40;
@@ -111,8 +120,6 @@ public class ChordDrawer {
         intersectionPoints = new ArrayList<>();
 
         createBaseImage();
-
-        Color clickColor = Color.white;
 
         chordImage.setIcon(new ImageIcon(chordImg));
 
@@ -126,17 +133,29 @@ public class ChordDrawer {
             public void mousePressed(MouseEvent e) {
                 if ( e.getButton() == 1) {
 
-                    chordImg.setRGB(e.getX(), e.getY(), clickColor.getRGB());
-
-                    //Note: we have to update the icon every time we change the image.
-                    chordImage.setIcon(new ImageIcon(chordImg));
-
                     //Calculate Closest Points
                     List<Point> closestPoints = calculateClosestPoints(e.getPoint());
+                    int highX = 0;
+                    int lowX = width;
+                    int highY = 0;
+                    int lowY = height;
                     for(Point i: closestPoints){
-                        chordImg.setRGB(i.x, i.y, Color.GREEN.getRGB());
+                        if( i.x < lowX ) lowX = i.x;
+                        if( i.x > highX) highX = i.x;
+                        if( i.y < lowY ) lowY = i.y;
+                        if( i.y > highY) highY = i.y;
                     }
 
+                    int targetX;
+                    if (closerTo(lowX, e.getX(), highX)){
+                        targetX = highX;
+                    } else {
+                        targetX = lowX;
+                    }
+                    int targetY = lowY + (highY-lowY)/2;
+
+                    chordGraphic.setColor(Color.blue);
+                    chordGraphic.fillOval(targetX-shapeWidth/2, targetY - shapeHeight/2, shapeWidth, shapeHeight);
 
                     chordImage.setIcon(new ImageIcon(chordImg));
                 }
