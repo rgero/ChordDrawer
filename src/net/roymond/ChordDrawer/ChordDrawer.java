@@ -29,6 +29,8 @@ public class ChordDrawer {
     private int numberOfFrets;
     private int horizontalPadding;
     private int verticalPadding;
+    private int workingWidth;
+    private int workingHeight;
 
     private List<Point> intersectionPoints;
 
@@ -37,16 +39,16 @@ public class ChordDrawer {
     }
 
     private List<Point> calculateClosestPoints(Point clickedPoint){
-        int numberOfPoints = 4;
-
-        DistanceTree dT = new DistanceTree();
-        double currentDistance;
-        for(Point p : intersectionPoints){
-            currentDistance = calculateDistance(clickedPoint, p);
-            dT.put(p,currentDistance);
+        List<Point> pointList = new ArrayList<>();
+        pointList.addAll(intersectionPoints);
+        for(int i = pointList.size()-1; i >= 0; i--){
+            boolean horizontalCheck = Math.abs( clickedPoint.x - pointList.get(i).x ) > (workingWidth/(numberOfStrings-1));
+            boolean verticalCheck =  Math.abs( clickedPoint.y - pointList.get(i).y ) > (workingHeight/(numberOfFrets-1));
+            if (horizontalCheck | verticalCheck){
+                pointList.remove(i);
+            }
         }
-        return dT.points().subList(0, numberOfPoints);
-
+        return pointList;
 
     }
 
@@ -58,8 +60,8 @@ public class ChordDrawer {
         chordGraphic.setColor(Color.gray);
         chordGraphic.fillRect(0,0,width, height);
 
-        int workingWidth = width- 2 * horizontalPadding;
-        int workingHeight = height - 2 * verticalPadding;
+        workingWidth = width- 2 * horizontalPadding;
+        workingHeight = height - 2 * verticalPadding;
         int startX = horizontalPadding;
         int endX = horizontalPadding+workingWidth;
 
