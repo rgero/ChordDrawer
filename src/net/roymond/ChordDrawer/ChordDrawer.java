@@ -1,12 +1,14 @@
 package net.roymond.ChordDrawer;
 
+import javafx.scene.effect.Light;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.*;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * The Chord Drawer base class.
@@ -28,7 +30,27 @@ public class ChordDrawer {
     private int horizontalPadding;
     private int verticalPadding;
 
-    private Point[][] intersectionPoints;
+    private List<Point> intersectionPoints;
+
+    private double calculateDistance(Point p1, Point p2){
+        return Math.sqrt( Math.pow( (p1.getX() - p2.getX()), 2) + Math.pow( (p1.getY() - p2.getY()), 2) );
+    }
+
+    private List<Point> calculateClosestPoints(Point clickedPoint){
+        int numberOfPoints = 4;
+
+        DistanceTree dT = new DistanceTree();
+        double currentDistance;
+        for(Point p : intersectionPoints){
+            currentDistance = calculateDistance(clickedPoint, p);
+            dT.put(p,currentDistance);
+        }
+        return dT.points().subList(0, numberOfPoints);
+
+
+    }
+
+
 
     private void createBaseImage(){
         chordImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -38,47 +60,38 @@ public class ChordDrawer {
 
         int workingWidth = width- 2 * horizontalPadding;
         int workingHeight = height - 2 * verticalPadding;
+        int startX = horizontalPadding;
+        int endX = horizontalPadding+workingWidth;
 
-        //Calculating Intersection Points
+        //Calculating Intersection Points and drawing.
+        Point previousPoint = null;
+        Point currentPoint;
+        chordGraphic.setColor(Color.black);
         for(int string = 0; string < numberOfStrings; string++){
             for(int fret = 0; fret < numberOfFrets; fret++){
                 int xPos = horizontalPadding + string * (workingWidth/(numberOfStrings-1));
                 int yPos = verticalPadding + fret * (workingHeight/(numberOfFrets-1));
-                System.out.println(String.format("x: %d\ty: %d", xPos, yPos));
-                intersectionPoints[string][fret] = new Point(xPos,yPos);
+                currentPoint = new Point(xPos, yPos);
+                intersectionPoints.add(currentPoint);
+                if( previousPoint != null){
+                    chordGraphic.drawLine(previousPoint.x, previousPoint.y, currentPoint.x,currentPoint.y);
+                    previousPoint = currentPoint;
+                } else {
+                    previousPoint = currentPoint;
+                }
                 chordImg.setRGB(xPos,yPos, Color.red.getRGB());
             }
-        }
-
-        //Drawing the Lines
-        chordGraphic.setColor(Color.blue);
-        Point previousPoint = null;
-        Point currentPoint;
-        for(int i=0; i < numberOfStrings; i++){
-            for(int j=0; j < numberOfFrets; j++){
-                if( previousPoint != null ){
-                    currentPoint = intersectionPoints[i][j];
-                    chordGraphic.drawLine( previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y );
-                    previousPoint = currentPoint;
-                } else {
-                    previousPoint = intersectionPoints[i][j];
-                }
-            }
-            previousPoint = null;
-        }
-        for(int j=0; j < numberOfFrets; j++){
-            for(int i=0; i < numberOfStrings; i++){
-                if( previousPoint != null ){
-                    currentPoint = intersectionPoints[i][j];
-                    chordGraphic.drawLine( previousPoint.x, previousPoint.y, currentPoint.x, currentPoint.y );
-                    previousPoint = currentPoint;
-                } else {
-                    previousPoint = intersectionPoints[i][j];
-                }
-            }
             previousPoint = null;
         }
 
+        //Figuring out the fret lines.
+        List<Integer> yValues = new ArrayList<>();
+        for(Point p : intersectionPoints){
+            if (!yValues.contains( p.y )){
+                yValues.add(p.y);
+                chordGraphic.drawLine(startX, p.y, endX, p.y);
+            }
+        }
 
     }
 
@@ -93,7 +106,7 @@ public class ChordDrawer {
         verticalPadding = 20;
 
         chordImage.setText("");
-        intersectionPoints = new Point[numberOfStrings][numberOfFrets];
+        intersectionPoints = new ArrayList<>();
 
         createBaseImage();
 
@@ -113,14 +126,17 @@ public class ChordDrawer {
 
                     chordImg.setRGB(e.getX(), e.getY(), clickColor.getRGB());
 
-                    //Note: It appears that these coordinates are relative to the object the listener is on.
-                    System.out.println(String.format("Mouse Pressed:\tx: %d\ty: %d", e.getX(), e.getY()));
-
-
                     //Note: we have to update the icon every time we change the image.
                     chordImage.setIcon(new ImageIcon(chordImg));
 
-                    //Calculate Closest Point
+                    //Calculate Closest Points
+                    List<Point> closestPoints = calculateClosestPoints(e.getPoint());
+                    for(Point i: closestPoints){
+                        chordImg.setRGB(i.x, i.y, Color.GREEN.getRGB());
+                    }
+
+
+                    chordImage.setIcon(new ImageIcon(chordImg));
                 }
             }
 
