@@ -40,6 +40,31 @@ public class ChordDrawer {
         return Math.sqrt( Math.pow( (p1.getX() - p2.getX()), 2) + Math.pow( (p1.getY() - p2.getY()), 2) );
     }
 
+    private Point getString(Point p){
+        //Calculate Closest Points
+        List<Point> closestPoints = calculateClosestPoints(p);
+        int highX = 0;
+        int lowX = width;
+        int highY = 0;
+        int lowY = height;
+        for(Point i: closestPoints){
+            if( i.x < lowX ) lowX = i.x;
+            if( i.x > highX) highX = i.x;
+            if( i.y < lowY ) lowY = i.y;
+            if( i.y > highY) highY = i.y;
+        }
+
+        int targetX;
+        if (closerTo(lowX, p.getX(), highX)){
+            targetX = highX;
+        } else {
+            targetX = lowX;
+        }
+        int targetY = lowY + (highY-lowY)/2;
+
+        return new Point(targetX, targetY);
+    }
+
     private List<Point> calculateClosestPoints(Point clickedPoint){
         List<Point> pointList = new ArrayList<>();
         pointList.addAll(intersectionPoints);
@@ -53,7 +78,7 @@ public class ChordDrawer {
         return pointList;
     }
 
-    private boolean closerTo(int low, int target, int high){
+    private boolean closerTo(int low, double target, int high){
         double decidePoint = low + (high - low)/2.0;
         return target > decidePoint;
     }
@@ -133,29 +158,13 @@ public class ChordDrawer {
             public void mousePressed(MouseEvent e) {
                 if ( e.getButton() == 1) {
 
-                    //Calculate Closest Points
-                    List<Point> closestPoints = calculateClosestPoints(e.getPoint());
-                    int highX = 0;
-                    int lowX = width;
-                    int highY = 0;
-                    int lowY = height;
-                    for(Point i: closestPoints){
-                        if( i.x < lowX ) lowX = i.x;
-                        if( i.x > highX) highX = i.x;
-                        if( i.y < lowY ) lowY = i.y;
-                        if( i.y > highY) highY = i.y;
-                    }
-
-                    int targetX;
-                    if (closerTo(lowX, e.getX(), highX)){
-                        targetX = highX;
-                    } else {
-                        targetX = lowX;
-                    }
-                    int targetY = lowY + (highY-lowY)/2;
+                    //Determine the correct position
+                    Point target = getString(e.getPoint());
 
                     chordGraphic.setColor(Color.blue);
-                    chordGraphic.fillOval(targetX-shapeWidth/2, targetY - shapeHeight/2, shapeWidth, shapeHeight);
+                    chordGraphic.fillOval(target.x-shapeWidth/2, target.y - shapeHeight/2, shapeWidth, shapeHeight);
+                    chordGraphic.setColor(Color.black);
+                    chordGraphic.drawOval(target.x-shapeWidth/2, target.y - shapeHeight/2, shapeWidth, shapeHeight);
 
                     chordImage.setIcon(new ImageIcon(chordImg));
                 }
