@@ -3,10 +3,17 @@ package net.roymond.ChordDrawer;
 import javafx.scene.effect.Light;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.PlainDocument;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
 
@@ -19,6 +26,8 @@ public class ChordDrawer {
     private JLabel panelTitle;
     private JLabel chordImage;
     private JPanel imgPanel;
+    private JTextField stringsTextField;
+    private JTextField fretsTextField;
 
     private int width;                  //This is the image width
     private int height;                 //This is the image height.
@@ -126,6 +135,8 @@ public class ChordDrawer {
             }
         }
 
+        chordImage.setIcon(new ImageIcon(chordImg));
+
     }
 
     ChordDrawer(){
@@ -186,6 +197,39 @@ public class ChordDrawer {
             }
         });
 
+        PlainDocument stringsField = (PlainDocument) stringsTextField.getDocument();
+        stringsField.setDocumentFilter(new MyIntFilter());
+
+        stringsField.addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                updateValue();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                updateValue();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                updateValue();
+            }
+
+            public void updateValue(){
+                String newValue = stringsTextField.getText();
+                if ( !newValue.equals("") ) {
+                    numberOfStrings = Integer.valueOf(newValue);
+                    if (numberOfStrings >= 2) {
+                        createBaseImage();
+                    }
+                }
+
+            }
+        });
+
+        PlainDocument fretsField = (PlainDocument)  fretsTextField.getDocument();
+        fretsField.setDocumentFilter(new MyIntFilter());
     }
 
 }
