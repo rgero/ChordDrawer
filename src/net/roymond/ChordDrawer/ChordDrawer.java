@@ -99,9 +99,6 @@ public class ChordDrawer {
         intersectionPoints.clear();
         chordImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         chordGraphic = chordImg.createGraphics();
-        chordGraphic.setColor(Color.gray);
-        chordGraphic.fillRect(0,0,width, height);
-        chordImage.setIcon(new ImageIcon(chordImg));
 
         workingWidth = width - 2 * horizontalPadding;
         workingHeight = height - 2 * verticalPadding;
@@ -130,7 +127,11 @@ public class ChordDrawer {
             previousPoint = null;
         }
 
-        //Figuring out the fret lines.
+        //Setting the circle size
+        shapeWidth = workingWidth/numberOfStrings/2;
+        shapeHeight = shapeWidth;
+
+        //Drawing the fret lines
         List<Integer> yValues = new ArrayList<>();
         for(Point p : intersectionPoints){
             if (!yValues.contains( p.y )){
