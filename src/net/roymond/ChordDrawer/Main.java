@@ -6,8 +6,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        JFrame frame = new JFrame("SetupWindow");
-        frame.setTitle("Roy's Guitar Trainer");
+        JFrame frame = new JFrame("ChordDrawer");
+        frame.setTitle("Roy's Chord Drawer");
         frame.setContentPane(new ChordDrawer().DrawerWindow);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();

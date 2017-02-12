@@ -38,12 +38,12 @@ class TextFieldUpdater implements DocumentListener {
         String name = textField.getName();
         if ( !newValue.equals("") ) {
             int val = Integer.valueOf(newValue);
-            if (name.equals("strings")) {
-                baseClass.numberOfStrings = val;
-            } else if (name.equals("frets")){
-                baseClass.numberOfFrets = val;
-            }
             if (val >= 2 & val <= 12){
+                if (name.equals("strings")) {
+                    baseClass.numberOfStrings = val;
+                } else if (name.equals("frets")){
+                    baseClass.numberOfFrets = val;
+                }
                 baseClass.createBaseImage();
             } else {
                 JOptionPane.showMessageDialog(null, String.format("The value you entered, %d, is invalid.\nPlease enter a number between 2 and 12.", val));

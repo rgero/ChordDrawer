@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fae2876f-3614-4471-86bb-05916447e40e" name="Default" comment="Fixed the bug with the intersectionPoints list. It has to be cleared every time we create the image or else we'll get relics from past runs.">
+    <list default="true" id="fae2876f-3614-4471-86bb-05916447e40e" name="Default" comment="Added the clear button.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.form" afterPath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.form" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java" afterPath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/Main.java" afterPath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/TextFieldUpdater.java" afterPath="$PROJECT_DIR$/src/net/roymond/ChordDrawer/TextFieldUpdater.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -26,8 +28,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state relative-caret-position="136">
+              <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -36,20 +38,21 @@
       <file leaf-file-name="ChordDrawer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1362">
-              <caret line="104" column="52" selection-start-line="104" selection-start-column="52" selection-end-line="104" selection-end-column="52" />
+            <state relative-caret-position="285">
+              <caret line="208" column="62" selection-start-line="208" selection-start-column="62" selection-end-line="208" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="class#5476:6607" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TextFieldUpdater.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TextFieldUpdater.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/TextFieldUpdater.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
+            <state relative-caret-position="595">
+              <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#625#626#0" expanded="true" />
@@ -63,7 +66,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChordDrawer.form" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ChordDrawer.form" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.form">
           <provider selected="true" editor-type-id="ui-designer">
             <state />
@@ -110,16 +113,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/Main.java" />
         <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/MapUtil.java" />
         <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/Node.java" />
         <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/DistanceTree.java" />
         <option value="$PROJECT_DIR$/readme.md" />
         <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/MyIntFilter.java" />
         <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/UpdateFeature.java" />
-        <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.form" />
-        <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java" />
         <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/TextFieldUpdater.java" />
+        <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/Main.java" />
+        <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java" />
+        <option value="$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.form" />
       </list>
     </option>
   </component>
@@ -498,7 +501,14 @@
       <option name="project" value="LOCAL" />
       <updated>1486861669290</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Fixed the bug with the intersectionPoints list. It has to be cleared every time we create the image or else we'll get relics from past runs.">
+      <created>1486864366743</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1486864366743</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView" selected-index="4">
@@ -512,11 +522,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3290461" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29046088" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29046088" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -567,18 +577,11 @@
     <MESSAGE value="Definitely need to refactor this. I just wanted to see if a similar method I had used in a previous project would work here." />
     <MESSAGE value="Added my own implementation of a DocumentListener." />
     <MESSAGE value="Fixed the bug with the intersectionPoints list. It has to be cleared every time we create the image or else we'll get relics from past runs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the bug with the intersectionPoints list. It has to be cleared every time we create the image or else we'll get relics from past runs." />
+    <MESSAGE value="Added the clear button." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added the clear button." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java</url>
-          <line>132</line>
-          <properties />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager>
@@ -608,6 +611,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#5476:6607" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -650,6 +654,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#5476:6607" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -684,6 +689,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#5476:6607" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -710,6 +716,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#5476:6607" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -736,6 +743,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#5476:6607" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -762,6 +770,7 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="class#5476:6607" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -786,10 +795,10 @@
     <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/Node.java" />
     <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/DistanceTree.java" />
     <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/UpdateFeature.java" />
-    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/MyIntFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        <state relative-caret-position="319">
+          <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -802,11 +811,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/MyIntFilter.java">
+    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="27" column="20" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+        <state relative-caret-position="136">
+          <caret line="8" column="49" selection-start-line="8" selection-start-column="49" selection-end-line="8" selection-end-column="49" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/TextFieldUpdater.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="32" selection-start-line="35" selection-start-column="32" selection-end-line="35" selection-end-column="32" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#625#626#0" expanded="true" />
+            <element signature="e#654#655#0" expanded="true" />
+            <element signature="e#717#718#0" expanded="true" />
+            <element signature="e#746#747#0" expanded="true" />
+            <element signature="e#810#811#0" expanded="true" />
+            <element signature="e#839#840#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="208" column="62" selection-start-line="208" selection-start-column="62" selection-end-line="208" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="class#5476:6607" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -818,32 +854,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/ChordDrawer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1362">
-          <caret line="104" column="52" selection-start-line="104" selection-start-column="52" selection-end-line="104" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/net/roymond/ChordDrawer/TextFieldUpdater.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#625#626#0" expanded="true" />
-            <element signature="e#654#655#0" expanded="true" />
-            <element signature="e#717#718#0" expanded="true" />
-            <element signature="e#746#747#0" expanded="true" />
-            <element signature="e#810#811#0" expanded="true" />
-            <element signature="e#839#840#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

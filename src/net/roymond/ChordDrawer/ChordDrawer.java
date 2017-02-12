@@ -28,6 +28,7 @@ public class ChordDrawer {
     private JPanel imgPanel;
     private JTextField stringsTextField;
     private JTextField fretsTextField;
+    private JButton clearButton;
 
     private int width;                  //This is the image width
     private int height;                 //This is the image height.
@@ -79,7 +80,7 @@ public class ChordDrawer {
         pointList.addAll(intersectionPoints);
         for(int i = pointList.size()-1; i >= 0; i--){
             boolean horizontalCheck = Math.abs( clickedPoint.x - pointList.get(i).x ) > (workingWidth/(numberOfStrings-1));
-            boolean verticalCheck =  Math.abs( clickedPoint.y - pointList.get(i).y ) > (workingHeight/(numberOfFrets-1));
+            boolean verticalCheck =  Math.abs( clickedPoint.y - pointList.get(i).y ) > (workingHeight/numberOfFrets);
             if (horizontalCheck | verticalCheck){
                 pointList.remove(i);
             }
@@ -102,10 +103,10 @@ public class ChordDrawer {
         chordGraphic.fillRect(0,0,width, height);
         chordImage.setIcon(new ImageIcon(chordImg));
 
-        workingWidth = width- 2 * horizontalPadding;
+        workingWidth = width - 2 * horizontalPadding;
         workingHeight = height - 2 * verticalPadding;
         int startX = horizontalPadding;
-        int endX = horizontalPadding+workingWidth;
+        int startY = verticalPadding;
 
         //Calculating Intersection Points and drawing.
         Point previousPoint = null;
@@ -113,9 +114,9 @@ public class ChordDrawer {
         int xPos = 0, yPos;
         chordGraphic.setColor(Color.black);
         for(int string = 0; string < numberOfStrings; string++){
-            for(int fret = 0; fret < numberOfFrets; fret++){
+            for(int fret = 0; fret <= numberOfFrets; fret++){
                 xPos = horizontalPadding + string * (workingWidth/(numberOfStrings-1));
-                yPos = verticalPadding + fret * (workingHeight/(numberOfFrets-1));
+                yPos = verticalPadding + fret * (workingHeight/numberOfFrets);
                 currentPoint = new Point(xPos, yPos);
                 intersectionPoints.add(currentPoint);
                 if( previousPoint != null){
@@ -137,6 +138,10 @@ public class ChordDrawer {
                 chordGraphic.drawLine(startX, p.y, xPos, p.y);
             }
         }
+
+        //Draw root fret
+        chordGraphic.setStroke(new BasicStroke(5));
+        chordGraphic.drawLine(startX,startY,xPos,startY);
 
         chordImage.setIcon(new ImageIcon(chordImg));
 
@@ -178,6 +183,7 @@ public class ChordDrawer {
                     chordGraphic.setColor(Color.blue);
                     chordGraphic.fillOval(target.x-shapeWidth/2, target.y - shapeHeight/2, shapeWidth, shapeHeight);
                     chordGraphic.setColor(Color.black);
+                    chordGraphic.setStroke(new BasicStroke(1));
                     chordGraphic.drawOval(target.x-shapeWidth/2, target.y - shapeHeight/2, shapeWidth, shapeHeight);
 
                     chordImage.setIcon(new ImageIcon(chordImg));
@@ -199,6 +205,8 @@ public class ChordDrawer {
 
             }
         });
+
+        clearButton.addActionListener(e -> createBaseImage());
 
         PlainDocument stringsField = (PlainDocument) stringsTextField.getDocument();
         stringsField.setDocumentFilter(new MyIntFilter());
