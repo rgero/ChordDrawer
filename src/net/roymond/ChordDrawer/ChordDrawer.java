@@ -210,12 +210,12 @@ public class ChordDrawer {
         clearButton.addActionListener(e -> createBaseImage());
 
         PlainDocument stringsField = (PlainDocument) stringsTextField.getDocument();
-        stringsField.setDocumentFilter(new MyIntFilter());
+        stringsField.setDocumentFilter(new IntFilter());
         stringsField.addDocumentListener( new TextFieldUpdater(this, stringsTextField) );
 
 
         PlainDocument fretsField = (PlainDocument)  fretsTextField.getDocument();
-        fretsField.setDocumentFilter(new MyIntFilter());
+        fretsField.setDocumentFilter(new IntFilter());
         fretsField.addDocumentListener( new TextFieldUpdater(this, fretsTextField));
     }
 

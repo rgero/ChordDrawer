@@ -5,7 +5,7 @@ import javax.swing.text.*;
 /**
  * Created by roymond on 2/10/17.
  */
-class MyIntFilter extends DocumentFilter {
+class IntFilter extends DocumentFilter {
     @Override
     public void insertString(FilterBypass fb, int offset, String string,
                              AttributeSet attr) throws BadLocationException {
