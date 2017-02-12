@@ -40,9 +40,9 @@ class TextFieldUpdater implements DocumentListener {
             int val = Integer.valueOf(newValue);
             if (val >= 2 & val <= 12){
                 if (name.equals("strings")) {
-                    baseClass.numberOfStrings = val;
+                    baseClass.numberOfStrings = val+1;
                 } else if (name.equals("frets")){
-                    baseClass.numberOfFrets = val;
+                    baseClass.numberOfFrets = val+1;
                 }
                 baseClass.createBaseImage();
             } else {

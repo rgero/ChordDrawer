@@ -21,6 +21,11 @@ import java.util.List;
  * The Chord Drawer base class.
  * Created by gero on 2/8/2017.
  */
+
+enum NotesEnum {
+    Open,Closed,Regular
+}
+
 public class ChordDrawer {
     protected JPanel DrawerWindow;
     private JLabel panelTitle;
@@ -29,6 +34,9 @@ public class ChordDrawer {
     private JTextField stringsTextField;
     private JTextField fretsTextField;
     private JButton clearButton;
+    private JButton mutedNote;
+    private JButton openNote;
+    private JButton regularNote;
 
     private int width;                  //This is the image width
     private int height;                 //This is the image height.
@@ -38,11 +46,12 @@ public class ChordDrawer {
     int numberOfStrings;
     int numberOfFrets;
     private int horizontalPadding;
-    private int verticalPadding;
+    private int bottomPadding;
     private int workingWidth;
     private int workingHeight;
     private int shapeWidth;
     private int shapeHeight;
+    private NotesEnum selectedNote;
 
     private List<Point> intersectionPoints;
 
@@ -80,7 +89,7 @@ public class ChordDrawer {
         pointList.addAll(intersectionPoints);
         for(int i = pointList.size()-1; i >= 0; i--){
             boolean horizontalCheck = Math.abs( clickedPoint.x - pointList.get(i).x ) > (workingWidth/(numberOfStrings-1));
-            boolean verticalCheck =  Math.abs( clickedPoint.y - pointList.get(i).y ) > (workingHeight/numberOfFrets);
+            boolean verticalCheck =  Math.abs( clickedPoint.y - pointList.get(i).y ) > (workingHeight/numberOfFrets+1);
             if (horizontalCheck | verticalCheck){
                 pointList.remove(i);
             }
@@ -101,48 +110,40 @@ public class ChordDrawer {
         chordGraphic = chordImg.createGraphics();
 
         workingWidth = width - 2 * horizontalPadding;
-        workingHeight = height - 2 * verticalPadding;
+        workingHeight = height - bottomPadding;
         int startX = horizontalPadding;
-        int startY = verticalPadding;
+        int startY = 0;
 
         //Calculating Intersection Points and drawing.
-        Point previousPoint = null;
         Point currentPoint;
-        int xPos = 0, yPos;
+        int xPos = 0, yPos = 0;
         chordGraphic.setColor(Color.black);
         for(int string = 0; string < numberOfStrings; string++){
             for(int fret = 0; fret <= numberOfFrets; fret++){
                 xPos = horizontalPadding + string * (workingWidth/(numberOfStrings-1));
-                yPos = verticalPadding + fret * (workingHeight/numberOfFrets);
+                yPos = fret * (workingHeight/numberOfFrets+1);
                 currentPoint = new Point(xPos, yPos);
                 intersectionPoints.add(currentPoint);
-                if( previousPoint != null){
-                    chordGraphic.drawLine(previousPoint.x, previousPoint.y, currentPoint.x,currentPoint.y);
-                    previousPoint = currentPoint;
-                } else {
-                    previousPoint = currentPoint;
-                }
-                chordImg.setRGB(xPos,yPos, Color.red.getRGB());
             }
-            previousPoint = null;
         }
-
-        //Setting the circle size
-        shapeWidth = workingWidth/numberOfStrings/2;
-        shapeHeight = shapeWidth;
 
         //Drawing the fret lines
         List<Integer> yValues = new ArrayList<>();
+        List<Integer> xValues = new ArrayList<>();
         for(Point p : intersectionPoints){
-            if (!yValues.contains( p.y )){
+            if (!yValues.contains( p.y ) & (p.y != startY)){
                 yValues.add(p.y);
                 chordGraphic.drawLine(startX, p.y, xPos, p.y);
+            }
+            if (!xValues.contains( p.x ) & (p.y != startY)){
+                xValues.add(p.x);
+                chordGraphic.drawLine(p.x, p.y, p.x, yPos);
             }
         }
 
         //Draw root fret
         chordGraphic.setStroke(new BasicStroke(5));
-        chordGraphic.drawLine(startX,startY,xPos,startY);
+        chordGraphic.drawLine(startX,yValues.get(0),xPos,yValues.get(0));
 
         chordImage.setIcon(new ImageIcon(chordImg));
 
@@ -151,7 +152,7 @@ public class ChordDrawer {
     ChordDrawer(){
 
         numberOfStrings = 6;
-        numberOfFrets = 5;
+        numberOfFrets = 6; // Root fret counts as one.
 
         shapeHeight = 20;
         shapeWidth = 20;
@@ -159,7 +160,7 @@ public class ChordDrawer {
         width = 340;
         height = 416;
         horizontalPadding = 40;
-        verticalPadding = 20;
+        bottomPadding = 30;
 
         chordImage.setText("");
         intersectionPoints = new ArrayList<>();
@@ -181,11 +182,23 @@ public class ChordDrawer {
                     //Determine the correct position
                     Point target = getString(e.getPoint());
 
-                    chordGraphic.setColor(Color.blue);
-                    chordGraphic.fillOval(target.x-shapeWidth/2, target.y - shapeHeight/2, shapeWidth, shapeHeight);
-                    chordGraphic.setColor(Color.black);
-                    chordGraphic.setStroke(new BasicStroke(1));
-                    chordGraphic.drawOval(target.x-shapeWidth/2, target.y - shapeHeight/2, shapeWidth, shapeHeight);
+                    if (selectedNote == NotesEnum.Regular) {
+                        chordGraphic.setColor(Color.blue);
+                        chordGraphic.fillOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
+                        chordGraphic.setColor(Color.black);
+                        chordGraphic.setStroke(new BasicStroke(1));
+                        chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
+                    } else if (selectedNote == NotesEnum.Open){
+                        chordGraphic.setColor(Color.blue);
+                        chordGraphic.setStroke(new BasicStroke(2));
+                        chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
+                    } else if (selectedNote == NotesEnum.Closed){
+                        chordGraphic.setColor(Color.blue);
+                        chordGraphic.setStroke(new BasicStroke(3));
+                        chordGraphic.drawLine(target.x - shapeWidth / 2, target.y - shapeHeight / 2, target.x + shapeWidth / 2, target.y + shapeHeight / 2);
+                        chordGraphic.drawLine(target.x - shapeWidth / 2, target.y + shapeHeight / 2, target.x + shapeWidth / 2, target.y - shapeHeight / 2);
+
+                    }
 
                     chordImage.setIcon(new ImageIcon(chordImg));
                 }
@@ -208,6 +221,12 @@ public class ChordDrawer {
         });
 
         clearButton.addActionListener(e -> createBaseImage());
+
+        openNote.addActionListener(e -> selectedNote = NotesEnum.Open);
+        mutedNote.addActionListener(e -> selectedNote = NotesEnum.Closed);
+        regularNote.addActionListener(e -> selectedNote = NotesEnum.Regular);
+
+
 
         PlainDocument stringsField = (PlainDocument) stringsTextField.getDocument();
         stringsField.setDocumentFilter(new IntFilter());
