@@ -34,8 +34,8 @@ public class ChordDrawer {
     private BufferedImage chordImg;
     private Graphics2D chordGraphic;
 
-    private int numberOfStrings;
-    private int numberOfFrets;
+    int numberOfStrings;
+    int numberOfFrets;
     private int horizontalPadding;
     private int verticalPadding;
     private int workingWidth;
@@ -94,7 +94,7 @@ public class ChordDrawer {
 
 
 
-    private void createBaseImage(){
+    void createBaseImage(){
         chordImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         chordGraphic = chordImg.createGraphics();
         chordGraphic.setColor(Color.gray);
@@ -199,37 +199,12 @@ public class ChordDrawer {
 
         PlainDocument stringsField = (PlainDocument) stringsTextField.getDocument();
         stringsField.setDocumentFilter(new MyIntFilter());
+        stringsField.addDocumentListener( new TextFieldUpdater(this, stringsTextField) );
 
-        stringsField.addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateValue();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateValue();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateValue();
-            }
-
-            public void updateValue(){
-                String newValue = stringsTextField.getText();
-                if ( !newValue.equals("") ) {
-                    numberOfStrings = Integer.valueOf(newValue);
-                    if (numberOfStrings >= 2) {
-                        createBaseImage();
-                    }
-                }
-
-            }
-        });
 
         PlainDocument fretsField = (PlainDocument)  fretsTextField.getDocument();
         fretsField.setDocumentFilter(new MyIntFilter());
+        fretsField.addDocumentListener( new TextFieldUpdater(this, fretsTextField));
     }
 
 }
