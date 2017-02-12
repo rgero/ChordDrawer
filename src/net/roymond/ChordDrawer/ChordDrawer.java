@@ -95,10 +95,12 @@ public class ChordDrawer {
 
 
     void createBaseImage(){
+        intersectionPoints.clear();
         chordImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         chordGraphic = chordImg.createGraphics();
         chordGraphic.setColor(Color.gray);
         chordGraphic.fillRect(0,0,width, height);
+        chordImage.setIcon(new ImageIcon(chordImg));
 
         workingWidth = width- 2 * horizontalPadding;
         workingHeight = height - 2 * verticalPadding;
@@ -108,11 +110,12 @@ public class ChordDrawer {
         //Calculating Intersection Points and drawing.
         Point previousPoint = null;
         Point currentPoint;
+        int xPos = 0, yPos;
         chordGraphic.setColor(Color.black);
         for(int string = 0; string < numberOfStrings; string++){
             for(int fret = 0; fret < numberOfFrets; fret++){
-                int xPos = horizontalPadding + string * (workingWidth/(numberOfStrings-1));
-                int yPos = verticalPadding + fret * (workingHeight/(numberOfFrets-1));
+                xPos = horizontalPadding + string * (workingWidth/(numberOfStrings-1));
+                yPos = verticalPadding + fret * (workingHeight/(numberOfFrets-1));
                 currentPoint = new Point(xPos, yPos);
                 intersectionPoints.add(currentPoint);
                 if( previousPoint != null){
@@ -131,7 +134,7 @@ public class ChordDrawer {
         for(Point p : intersectionPoints){
             if (!yValues.contains( p.y )){
                 yValues.add(p.y);
-                chordGraphic.drawLine(startX, p.y, endX, p.y);
+                chordGraphic.drawLine(startX, p.y, xPos, p.y);
             }
         }
 

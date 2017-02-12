@@ -5,12 +5,13 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 /**
+ * A custom document listener that is for the two text fields on the ChordDrawer. This should not be used anywhere else.
  * Created by Roymond on 2/11/2017.
  */
 class TextFieldUpdater implements DocumentListener {
 
-    JTextField textField;
-    ChordDrawer baseClass;
+    private JTextField textField;
+    private ChordDrawer baseClass;
 
     TextFieldUpdater(ChordDrawer base, JTextField textField){
         this.textField = textField;
@@ -19,7 +20,6 @@ class TextFieldUpdater implements DocumentListener {
 
     @Override
     public void insertUpdate(DocumentEvent e) {
-        System.out.println("called");
         updateValue();
     }
 
@@ -33,17 +33,20 @@ class TextFieldUpdater implements DocumentListener {
         updateValue();
     }
 
-    public void updateValue(){
+    private  void updateValue(){
         String newValue = textField.getText();
         String name = textField.getName();
         if ( !newValue.equals("") ) {
+            int val = Integer.valueOf(newValue);
             if (name.equals("strings")) {
-                baseClass.numberOfStrings = Integer.valueOf(newValue);
+                baseClass.numberOfStrings = val;
             } else if (name.equals("frets")){
-                baseClass.numberOfFrets = Integer.valueOf(newValue);
+                baseClass.numberOfFrets = val;
             }
-            if (Integer.valueOf(newValue) > 2){
+            if (val >= 2 & val <= 12){
                 baseClass.createBaseImage();
+            } else {
+                JOptionPane.showMessageDialog(null, String.format("The value you entered, %d, is invalid.\nPlease enter a number between 2 and 12.", val));
             }
         }
     }
