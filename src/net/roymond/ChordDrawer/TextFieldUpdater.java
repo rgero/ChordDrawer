@@ -33,25 +33,36 @@ class TextFieldUpdater implements DocumentListener {
         updateValue();
     }
 
+    private boolean checkValue(int val, int low, int high){
+        if (val >= low & val <= high){
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, String.format("The value you entered, %d, is invalid.\nPlease enter a number between %d and %d.", val, low, high));
+            return false;
+        }
+    }
+
     private  void updateValue(){
         String newValue = textField.getText();
         String name = textField.getName();
         if ( !newValue.equals("") ) {
             int val = Integer.valueOf(newValue);
-            if (val >= 2 & val <= 12){
-                switch (name) {
-                    case "strings":
+            switch (name) {
+                case "strings":
+                    if( checkValue(val, 2, 12)) {
                         baseClass.numberOfStrings = val + 1;
-                        break;
-                    case "frets":
+                    }
+                    break;
+                case "frets":
+                    if( checkValue(val, 2, 12)) {
                         baseClass.numberOfFrets = val + 1;
-                        break;
-                    case "root":
+                    }
+                    break;
+                case "root":
+                    if( checkValue(val, 0, 20)) {
                         baseClass.rootNote = val;
-                        break;
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, String.format("The value you entered, %d, is invalid.\nPlease enter a number between 2 and 12.", val));
+                    }
+                    break;
             }
         }
     }

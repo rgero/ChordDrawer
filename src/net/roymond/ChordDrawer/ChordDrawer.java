@@ -139,6 +139,13 @@ public class ChordDrawer {
         chordGraphic.setStroke(new BasicStroke(5));
         chordGraphic.drawLine(startX,yValues.get(0),xPos,yValues.get(0));
 
+        //Draw Root Note
+        if (rootNote != 0) {
+            int fontSize = 16;
+            chordGraphic.setFont(new Font(null, Font.BOLD, fontSize));
+            chordGraphic.drawString(String.valueOf(rootNote), xPos + 10, yValues.get(0) + fontSize/3);
+        }
+
         chordImage.setIcon(new ImageIcon(chordImg));
 
     }
