@@ -37,6 +37,7 @@ public class ChordDrawer {
     private JButton mutedNote;
     private JButton openNote;
     private JButton regularNote;
+    private JPanel NotePanel;
 
     private int width;                  //This is the image width
     private int height;                 //This is the image height.
