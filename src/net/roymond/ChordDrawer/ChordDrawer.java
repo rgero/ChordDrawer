@@ -21,11 +21,6 @@ import java.util.List;
  * The Chord Drawer base class.
  * Created by gero on 2/8/2017.
  */
-
-enum NotesEnum {
-    Open,Closed,Regular
-}
-
 public class ChordDrawer {
     protected JPanel DrawerWindow;
     private JLabel panelTitle;
@@ -38,14 +33,17 @@ public class ChordDrawer {
     private JButton openNote;
     private JButton regularNote;
     private JPanel NotePanel;
+    private JButton launchFretSetup;
+    private JPanel clearPanel;
 
     private int width;                  //This is the image width
     private int height;                 //This is the image height.
     private BufferedImage chordImg;
     private Graphics2D chordGraphic;
 
-    int numberOfStrings;
-    int numberOfFrets;
+    private int numberOfStrings;
+    private int numberOfFrets;
+    private int rootNote;
     private int horizontalPadding;
     private int bottomPadding;
     private int workingWidth;
@@ -53,12 +51,7 @@ public class ChordDrawer {
     private int shapeWidth;
     private int shapeHeight;
     private NotesEnum selectedNote;
-
     private List<Point> intersectionPoints;
-
-    private double calculateDistance(Point p1, Point p2){
-        return Math.sqrt( Math.pow( (p1.getX() - p2.getX()), 2) + Math.pow( (p1.getY() - p2.getY()), 2) );
-    }
 
     private Point getString(Point p){
         //Calculate Closest Points
@@ -105,7 +98,7 @@ public class ChordDrawer {
 
 
 
-    void createBaseImage(){
+    private void createBaseImage(){
         intersectionPoints.clear();
         chordImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         chordGraphic = chordImg.createGraphics();
@@ -154,9 +147,11 @@ public class ChordDrawer {
 
         numberOfStrings = 6;
         numberOfFrets = 6; // Root fret counts as one.
+        rootNote = 0;
 
         shapeHeight = 20;
         shapeWidth = 20;
+        selectedNote = NotesEnum.None;
 
         width = 340;
         height = 416;
@@ -198,7 +193,8 @@ public class ChordDrawer {
                         chordGraphic.setStroke(new BasicStroke(3));
                         chordGraphic.drawLine(target.x - shapeWidth / 2, target.y - shapeHeight / 2, target.x + shapeWidth / 2, target.y + shapeHeight / 2);
                         chordGraphic.drawLine(target.x - shapeWidth / 2, target.y + shapeHeight / 2, target.x + shapeWidth / 2, target.y - shapeHeight / 2);
-
+                    } else if (selectedNote == NotesEnum.None){
+                        JOptionPane.showMessageDialog(null, "You must select a type of note");
                     }
 
                     chordImage.setIcon(new ImageIcon(chordImg));
@@ -227,16 +223,23 @@ public class ChordDrawer {
         mutedNote.addActionListener(e -> selectedNote = NotesEnum.Closed);
         regularNote.addActionListener(e -> selectedNote = NotesEnum.Regular);
 
+        launchFretSetup.addActionListener(e -> {
+            BoardSetup dialog = new BoardSetup(numberOfStrings, numberOfFrets, rootNote);
+            dialog.setTitle("Set up the Fretboard");
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            Image img = kit.createImage(ClassLoader.getSystemResource("net/roymond/Resources/Icon.png"));
+            dialog.setIconImage(img);
+            dialog.pack();
+            dialog.setVisible(true);
 
-
-        PlainDocument stringsField = (PlainDocument) stringsTextField.getDocument();
-        stringsField.setDocumentFilter(new IntFilter());
-        stringsField.addDocumentListener( new TextFieldUpdater(this, stringsTextField) );
-
-
-        PlainDocument fretsField = (PlainDocument)  fretsTextField.getDocument();
-        fretsField.setDocumentFilter(new IntFilter());
-        fretsField.addDocumentListener( new TextFieldUpdater(this, fretsTextField));
+            HashMap<String, Integer> results = dialog.getResults();
+            if (!results.isEmpty()) {
+                numberOfFrets = results.get("frets");
+                numberOfStrings = results.get("strings");
+                rootNote = results.get("root");
+                createBaseImage();
+            }
+        });
     }
 
 }

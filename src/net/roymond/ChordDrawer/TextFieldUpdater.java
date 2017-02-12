@@ -11,9 +11,9 @@ import javax.swing.event.DocumentListener;
 class TextFieldUpdater implements DocumentListener {
 
     private JTextField textField;
-    private ChordDrawer baseClass;
+    private BoardSetup baseClass;
 
-    TextFieldUpdater(ChordDrawer base, JTextField textField){
+    TextFieldUpdater(BoardSetup base, JTextField textField){
         this.textField = textField;
         this.baseClass = base;
     }
@@ -39,12 +39,17 @@ class TextFieldUpdater implements DocumentListener {
         if ( !newValue.equals("") ) {
             int val = Integer.valueOf(newValue);
             if (val >= 2 & val <= 12){
-                if (name.equals("strings")) {
-                    baseClass.numberOfStrings = val+1;
-                } else if (name.equals("frets")){
-                    baseClass.numberOfFrets = val+1;
+                switch (name) {
+                    case "strings":
+                        baseClass.numberOfStrings = val + 1;
+                        break;
+                    case "frets":
+                        baseClass.numberOfFrets = val + 1;
+                        break;
+                    case "root":
+                        baseClass.rootNote = val;
+                        break;
                 }
-                baseClass.createBaseImage();
             } else {
                 JOptionPane.showMessageDialog(null, String.format("The value you entered, %d, is invalid.\nPlease enter a number between 2 and 12.", val));
             }
