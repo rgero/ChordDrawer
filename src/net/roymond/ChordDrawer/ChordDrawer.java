@@ -35,6 +35,7 @@ public class ChordDrawer {
     private JPanel NotePanel;
     private JButton launchFretSetup;
     private JPanel clearPanel;
+    private JButton exportChord;
 
     private int width;                  //This is the image width
     private int height;                 //This is the image height.
@@ -246,6 +247,16 @@ public class ChordDrawer {
                 rootNote = results.get("root");
                 createBaseImage();
             }
+        });
+
+        exportChord.addActionListener(e -> {
+            ExportDialog dialog = new ExportDialog(chordGraphic, chordImg);
+            dialog.setTitle("Export the Chord!");
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            Image img = kit.createImage(ClassLoader.getSystemResource("net/roymond/Resources/Icon.png"));
+            dialog.setIconImage(img);
+            dialog.pack();
+            dialog.setVisible(true);
         });
     }
 

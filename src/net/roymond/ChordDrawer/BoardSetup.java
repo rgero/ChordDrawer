@@ -21,6 +21,7 @@ public class BoardSetup extends JDialog {
     BoardSetup(int numberOfStrings, int numberOfFrets, int rootNote) {
         setContentPane(contentPane);
         setModal(true);
+        setResizable(false);
         getRootPane().setDefaultButton(buttonOK);
 
         this.numberOfFrets = numberOfFrets;
