@@ -36,6 +36,7 @@ public class ChordDrawer {
     private JButton launchFretSetup;
     private JPanel clearPanel;
     private JButton exportChord;
+    private JButton barreNote;
 
     private int width;                  //This is the image width
     private int height;                 //This is the image height.
@@ -53,6 +54,7 @@ public class ChordDrawer {
     private int shapeHeight;
     private NotesEnum selectedNote;
     private List<Point> intersectionPoints;
+    private Point startPoint;
 
     private Point getString(Point p){
         //Calculate Closest Points
@@ -161,6 +163,8 @@ public class ChordDrawer {
         shapeWidth = 20;
         selectedNote = NotesEnum.None;
 
+        startPoint = null;
+
         width = 340;
         height = 416;
         horizontalPadding = 40;
@@ -201,8 +205,20 @@ public class ChordDrawer {
                         chordGraphic.setStroke(new BasicStroke(3));
                         chordGraphic.drawLine(target.x - shapeWidth / 2, target.y - shapeHeight / 2, target.x + shapeWidth / 2, target.y + shapeHeight / 2);
                         chordGraphic.drawLine(target.x - shapeWidth / 2, target.y + shapeHeight / 2, target.x + shapeWidth / 2, target.y - shapeHeight / 2);
+                    } else if (selectedNote == NotesEnum.Barre) {
+
+                        if (startPoint == null) {
+                            startPoint = target;
+                        } else {
+                            chordGraphic.setColor(Color.BLUE);
+                            BasicStroke barreStroke = new BasicStroke( shapeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+                            chordGraphic.setStroke(barreStroke);
+                            chordGraphic.drawLine(startPoint.x, startPoint.y, target.x, startPoint.y);
+                            startPoint = null;
+                        }
+
                     } else if (selectedNote == NotesEnum.None){
-                        JOptionPane.showMessageDialog(null, "You must select a type of note");
+                            JOptionPane.showMessageDialog(null, "You must select a type of note");
                     }
 
                     chordImage.setIcon(new ImageIcon(chordImg));
@@ -230,6 +246,7 @@ public class ChordDrawer {
         openNote.addActionListener(e -> selectedNote = NotesEnum.Open);
         mutedNote.addActionListener(e -> selectedNote = NotesEnum.Closed);
         regularNote.addActionListener(e -> selectedNote = NotesEnum.Regular);
+        barreNote.addActionListener(e -> selectedNote = NotesEnum.Barre);
 
         launchFretSetup.addActionListener(e -> {
             BoardSetup dialog = new BoardSetup(numberOfStrings, numberOfFrets, rootNote);

@@ -5,5 +5,5 @@ package net.roymond.ChordDrawer;
  * Created by Roymond on 2/12/2017.
  */
 enum NotesEnum {
-    Open,Closed,Regular,None
+    Open,Closed,Regular,Barre,None
 }
