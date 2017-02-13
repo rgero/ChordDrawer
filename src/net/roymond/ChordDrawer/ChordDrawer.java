@@ -189,19 +189,17 @@ public class ChordDrawer {
 
                     //Determine the correct position
                     Point target = getString(e.getPoint());
+                    chordGraphic.setColor(Color.blue);
 
                     if (selectedNote == NotesEnum.Regular) {
-                        chordGraphic.setColor(Color.blue);
                         chordGraphic.fillOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
                         chordGraphic.setColor(Color.black);
                         chordGraphic.setStroke(new BasicStroke(1));
                         chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
                     } else if (selectedNote == NotesEnum.Open){
-                        chordGraphic.setColor(Color.blue);
                         chordGraphic.setStroke(new BasicStroke(2));
                         chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
                     } else if (selectedNote == NotesEnum.Closed){
-                        chordGraphic.setColor(Color.blue);
                         chordGraphic.setStroke(new BasicStroke(3));
                         chordGraphic.drawLine(target.x - shapeWidth / 2, target.y - shapeHeight / 2, target.x + shapeWidth / 2, target.y + shapeHeight / 2);
                         chordGraphic.drawLine(target.x - shapeWidth / 2, target.y + shapeHeight / 2, target.x + shapeWidth / 2, target.y - shapeHeight / 2);
@@ -209,8 +207,8 @@ public class ChordDrawer {
 
                         if (startPoint == null) {
                             startPoint = target;
+                            chordGraphic.fillOval(target.x - shapeWidth / 4, target.y - shapeHeight / 4, shapeWidth/2, shapeHeight/2);
                         } else {
-                            chordGraphic.setColor(Color.BLUE);
                             BasicStroke barreStroke = new BasicStroke( shapeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
                             chordGraphic.setStroke(barreStroke);
                             chordGraphic.drawLine(startPoint.x, startPoint.y, target.x, startPoint.y);
