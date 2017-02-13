@@ -56,6 +56,128 @@ public class ChordDrawer {
     private List<Point> intersectionPoints;
     private Point startPoint;
 
+    ChordDrawer(){
+
+        //Setting up the fretboard.
+        numberOfStrings = 6;
+        numberOfFrets = 6; // Root fret counts as one.
+        rootNote = 0;
+        width = 340;
+        height = 416;
+        horizontalPadding = 40;
+        bottomPadding = 30;
+
+        //Setting up the note display
+        shapeHeight = 20;
+        shapeWidth = 20;
+        selectedNote = NotesEnum.None;
+
+        startPoint = null;
+        chordImage.setText("");
+        intersectionPoints = new ArrayList<>();
+
+        createBaseImage();
+        chordImage.setIcon(new ImageIcon(chordImg));
+
+        //Allowing the user to click on the screen.
+        chordImage.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if ( e.getButton() == 1) {
+
+                    //Determine the correct position
+                    Point target = getString(e.getPoint());
+                    chordGraphic.setColor(Color.blue);
+
+                    if (selectedNote == NotesEnum.Regular) {
+                        chordGraphic.fillOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
+                        chordGraphic.setColor(Color.black);
+                        chordGraphic.setStroke(new BasicStroke(1));
+                        chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
+                    } else if (selectedNote == NotesEnum.Open){
+                        chordGraphic.setStroke(new BasicStroke(2));
+                        chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
+                    } else if (selectedNote == NotesEnum.Closed){
+                        chordGraphic.setStroke(new BasicStroke(3));
+                        chordGraphic.drawLine(target.x - shapeWidth / 2, target.y - shapeHeight / 2, target.x + shapeWidth / 2, target.y + shapeHeight / 2);
+                        chordGraphic.drawLine(target.x - shapeWidth / 2, target.y + shapeHeight / 2, target.x + shapeWidth / 2, target.y - shapeHeight / 2);
+                    } else if (selectedNote == NotesEnum.Barre) {
+
+                        if (startPoint == null) {
+                            startPoint = target;
+                            chordGraphic.fillOval(target.x - shapeWidth / 4, target.y - shapeHeight / 4, shapeWidth/2, shapeHeight/2);
+                        } else {
+                            BasicStroke barreStroke = new BasicStroke( shapeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+                            chordGraphic.setStroke(barreStroke);
+                            chordGraphic.drawLine(startPoint.x, startPoint.y, target.x, startPoint.y);
+                            startPoint = null;
+                        }
+
+                    } else if (selectedNote == NotesEnum.None){
+                        JOptionPane.showMessageDialog(null, "You must select a type of note");
+                    }
+
+                    chordImage.setIcon(new ImageIcon(chordImg));
+                }
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
+        clearButton.addActionListener(e -> createBaseImage());
+
+        openNote.addActionListener(e -> selectedNote = NotesEnum.Open);
+        mutedNote.addActionListener(e -> selectedNote = NotesEnum.Closed);
+        regularNote.addActionListener(e -> selectedNote = NotesEnum.Regular);
+        barreNote.addActionListener(e -> selectedNote = NotesEnum.Barre);
+
+        launchFretSetup.addActionListener(e -> {
+            BoardSetup dialog = new BoardSetup(numberOfStrings, numberOfFrets, rootNote);
+            dialog.setTitle("Set up the Fretboard");
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            Image img = kit.createImage(ClassLoader.getSystemResource("net/roymond/Resources/Icon.png"));
+            dialog.setIconImage(img);
+            dialog.pack();
+            dialog.setVisible(true);
+
+            HashMap<String, Integer> results = dialog.getResults();
+            if (!results.isEmpty()) {
+                numberOfFrets = results.get("frets");
+                numberOfStrings = results.get("strings");
+                rootNote = results.get("root");
+                createBaseImage();
+            }
+        });
+
+        exportChord.addActionListener(e -> {
+            ExportDialog dialog = new ExportDialog(chordGraphic, chordImg);
+            dialog.setTitle("Export the Chord!");
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            Image img = kit.createImage(ClassLoader.getSystemResource("net/roymond/Resources/Icon.png"));
+            dialog.setIconImage(img);
+            dialog.pack();
+            dialog.setVisible(true);
+        });
+    }
+
     private Point getString(Point p){
         //Calculate Closest Points
         List<Point> closestPoints = calculateClosestPoints(p);
@@ -153,126 +275,6 @@ public class ChordDrawer {
 
     }
 
-    ChordDrawer(){
 
-        numberOfStrings = 6;
-        numberOfFrets = 6; // Root fret counts as one.
-        rootNote = 0;
-
-        shapeHeight = 20;
-        shapeWidth = 20;
-        selectedNote = NotesEnum.None;
-
-        startPoint = null;
-
-        width = 340;
-        height = 416;
-        horizontalPadding = 40;
-        bottomPadding = 30;
-
-        chordImage.setText("");
-        intersectionPoints = new ArrayList<>();
-
-        createBaseImage();
-
-        chordImage.setIcon(new ImageIcon(chordImg));
-
-        chordImage.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if ( e.getButton() == 1) {
-
-                    //Determine the correct position
-                    Point target = getString(e.getPoint());
-                    chordGraphic.setColor(Color.blue);
-
-                    if (selectedNote == NotesEnum.Regular) {
-                        chordGraphic.fillOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
-                        chordGraphic.setColor(Color.black);
-                        chordGraphic.setStroke(new BasicStroke(1));
-                        chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
-                    } else if (selectedNote == NotesEnum.Open){
-                        chordGraphic.setStroke(new BasicStroke(2));
-                        chordGraphic.drawOval(target.x - shapeWidth / 2, target.y - shapeHeight / 2, shapeWidth, shapeHeight);
-                    } else if (selectedNote == NotesEnum.Closed){
-                        chordGraphic.setStroke(new BasicStroke(3));
-                        chordGraphic.drawLine(target.x - shapeWidth / 2, target.y - shapeHeight / 2, target.x + shapeWidth / 2, target.y + shapeHeight / 2);
-                        chordGraphic.drawLine(target.x - shapeWidth / 2, target.y + shapeHeight / 2, target.x + shapeWidth / 2, target.y - shapeHeight / 2);
-                    } else if (selectedNote == NotesEnum.Barre) {
-
-                        if (startPoint == null) {
-                            startPoint = target;
-                            chordGraphic.fillOval(target.x - shapeWidth / 4, target.y - shapeHeight / 4, shapeWidth/2, shapeHeight/2);
-                        } else {
-                            BasicStroke barreStroke = new BasicStroke( shapeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-                            chordGraphic.setStroke(barreStroke);
-                            chordGraphic.drawLine(startPoint.x, startPoint.y, target.x, startPoint.y);
-                            startPoint = null;
-                        }
-
-                    } else if (selectedNote == NotesEnum.None){
-                            JOptionPane.showMessageDialog(null, "You must select a type of note");
-                    }
-
-                    chordImage.setIcon(new ImageIcon(chordImg));
-                }
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
-        clearButton.addActionListener(e -> createBaseImage());
-
-        openNote.addActionListener(e -> selectedNote = NotesEnum.Open);
-        mutedNote.addActionListener(e -> selectedNote = NotesEnum.Closed);
-        regularNote.addActionListener(e -> selectedNote = NotesEnum.Regular);
-        barreNote.addActionListener(e -> selectedNote = NotesEnum.Barre);
-
-        launchFretSetup.addActionListener(e -> {
-            BoardSetup dialog = new BoardSetup(numberOfStrings, numberOfFrets, rootNote);
-            dialog.setTitle("Set up the Fretboard");
-            Toolkit kit = Toolkit.getDefaultToolkit();
-            Image img = kit.createImage(ClassLoader.getSystemResource("net/roymond/Resources/Icon.png"));
-            dialog.setIconImage(img);
-            dialog.pack();
-            dialog.setVisible(true);
-
-            HashMap<String, Integer> results = dialog.getResults();
-            if (!results.isEmpty()) {
-                numberOfFrets = results.get("frets");
-                numberOfStrings = results.get("strings");
-                rootNote = results.get("root");
-                createBaseImage();
-            }
-        });
-
-        exportChord.addActionListener(e -> {
-            ExportDialog dialog = new ExportDialog(chordGraphic, chordImg);
-            dialog.setTitle("Export the Chord!");
-            Toolkit kit = Toolkit.getDefaultToolkit();
-            Image img = kit.createImage(ClassLoader.getSystemResource("net/roymond/Resources/Icon.png"));
-            dialog.setIconImage(img);
-            dialog.pack();
-            dialog.setVisible(true);
-        });
-    }
 
 }
