@@ -31,7 +31,7 @@ public class Main {
         menu.setMnemonic(KeyEvent.VK_A);
         menu.getAccessibleContext().setAccessibleDescription("The About lives here");
 
-        Action aboutAction = new AbstractAction("About the Chord Drawer") {
+        Action aboutAction = new AbstractAction("About Menu") {
 
             @Override
             public void actionPerformed(ActionEvent e) {
