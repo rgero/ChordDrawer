@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ChordDrawer:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ChordDrawer_jar</output-path>
+    <root id="archive" name="ChordDrawer.jar">
+      <element id="module-output" name="ChordDrawer" />
+    </root>
+  </artifact>
+</component>
