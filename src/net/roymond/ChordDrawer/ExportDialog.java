@@ -1,7 +1,5 @@
 package net.roymond.ChordDrawer;
 
-import javafx.scene.image.*;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +8,6 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Objects;
 
 public class ExportDialog extends JDialog {

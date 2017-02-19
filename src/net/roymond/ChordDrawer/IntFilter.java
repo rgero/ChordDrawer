@@ -3,6 +3,7 @@ package net.roymond.ChordDrawer;
 import javax.swing.text.*;
 
 /**
+ * This is the filter for the text field. This way the user can't enter incorrect values.
  * Created by roymond on 2/10/17.
  */
 class IntFilter extends DocumentFilter {
