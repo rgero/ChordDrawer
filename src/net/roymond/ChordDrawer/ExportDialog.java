@@ -77,7 +77,9 @@ public class ExportDialog extends JDialog {
             chord.drawImage(img, null, 0,0);
             try {
                 ImageIO.write(img, "PNG", outputFile);
+                JOptionPane.showMessageDialog(null, "Export Successful");
             } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Export Failed!");
                 e.printStackTrace();
             }
 
